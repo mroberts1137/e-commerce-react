@@ -1,4 +1,4 @@
-import error_img from '../assets/404-dino.jpg';
+import error_img from '../app/assets/404-dino.jpg';
 
 const NoPage = () => {
   return (

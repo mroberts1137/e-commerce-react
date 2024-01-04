@@ -3,7 +3,9 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Shop from './pages/Shop';
+import HomePage from './pages/HomePage';
+import ProductsPage from './pages/ProductsPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 import Cart from './pages/Cart';
 import NoPage from './pages/NoPage';
 
@@ -12,7 +14,9 @@ function App() {
     <div className="App">
       <Header />
       <Routes>
-        <Route path="/" element={<Shop />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<NoPage />} />
       </Routes>

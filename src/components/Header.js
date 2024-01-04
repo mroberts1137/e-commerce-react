@@ -34,8 +34,8 @@ const Header = () => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink className="nav-link" to="/categories">
-              <i className="fa fa-list fa-lg" /> Categories
+            <NavLink className="nav-link" to="/products">
+              <i className="fa fa-list fa-lg" /> Products
             </NavLink>
           </NavItem>
           <NavItem>
