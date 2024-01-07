@@ -1,17 +1,24 @@
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-const ProductCard = ({ item }) => {
-  const { id, image, name, description, rating } = item;
+/*
+Data from fakestoreapi is an object with properties:
+{
+  id, title, price, category, description, image, rating: {rate, count}
+}
+*/
+
+const ProductCard = ({ product }) => {
+  const { id, image, title, description, rating, category } = product;
 
   return (
-    <Link to={`${id}`}>
+    <Link to={`/products/${id}`}>
       <Card>
-        <CardImg src={image} alt={name} />
+        <CardImg src={image} alt={title} />
         <CardBody>
-          <CardTitle>{name}</CardTitle>
-          <CardText>{description}</CardText>
-          <CardText>{`Rating: ${rating} out of 5`}</CardText>
+          <CardTitle>{title}</CardTitle>
+          <CardText>{category}</CardText>
+          <CardText>{rating.rate}</CardText>
         </CardBody>
       </Card>
     </Link>

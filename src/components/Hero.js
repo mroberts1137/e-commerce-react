@@ -1,14 +1,13 @@
 import { Button } from 'reactstrap';
+import './Hero.css';
 
 const Hero = () => {
   return (
-    <div>
-      {/* <Jumbotron> */}
-      <h1 className="display-3">Shop</h1>
-      <p className="lead">
-        <Button color="primary">Learn More</Button>
+    <div className='hero'>
+      <h1 className='display-3'>Shop</h1>
+      <p className='lead'>
+        <Button color='primary'>Learn More</Button>
       </p>
-      {/* </Jumbotron> */}
     </div>
   );
 };

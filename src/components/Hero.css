@@ -1,0 +1,5 @@
+.hero {
+  height: 300px;
+  background: linear-gradient(#7e73b2, #ffffff);
+  border: solid 1px gray;
+}
