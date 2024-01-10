@@ -1,61 +1,75 @@
-import React, { useState, useEffect } from "react";
-import { Col, Row } from "reactstrap";
-import ProductCard from "./ProductCard";
-import { getAllProducts } from "../../utils/backend";
+import React, { useState, useEffect } from 'react';
+import { Col, Row } from 'reactstrap';
+import ProductCard from './ProductCard';
+import ProductsFilter from './ProductsFilter';
+import { getAllProducts } from '../../utils/backend';
+
+/*
+Data from fakestoreapi is an object with properties:
+{
+  id, title, price, category, description, image, rating: {rate, count}
+}
+*/
 
 const ProductList = () => {
   const [products, setProducts] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sortBy, setSortBy] = useState("Featured"); // Initial sort option
+  const [sortBy, setSortBy] = useState('Featured'); // Initial sort option
+  let sortedProducts = products || [];
 
   useEffect(() => {
+    // fetch database of products on component mounting
+    // this should be moved to state management/Redux
     getAllProducts()
       .then((products) => {
         setProducts(products);
         setLoading(false);
-        console.log("fetched data");
+        console.log('fetched data');
       })
       .catch((e) => {
         setError(e);
         setLoading(false);
-        console.log("error fetching data");
+        console.log('error fetching data');
       });
   }, []);
 
-  const handleSortChange = (option) => {
+  const handleSortChange = (e) => {
     // Function to handle sort option change
-    setSortBy(option);
+    setSortBy(e.target.value);
+  };
+
+  const filterProducts = (option) => {
     // Additional logic for sorting products based on the selected option
     // Modify this logic according to your sorting requirements and data structure
-    let sortedProducts = [];
 
-    if (option === "Featured") {
+    if (option === 'Featured') {
       sortedProducts = [...products]; // Default order
-    } else if (option === "AZ") {
+    } else if (option === 'AZ') {
       sortedProducts = [...products].sort((a, b) =>
-        a.name.localeCompare(b.name)
+        a.title.localeCompare(b.title)
       );
-    } else if (option === "ZA") {
+    } else if (option === 'ZA') {
       sortedProducts = [...products].sort((a, b) =>
-        b.name.localeCompare(a.name)
+        b.title.localeCompare(a.title)
       );
-    } else if (option === "LowToHigh") {
+    } else if (option === 'LowToHigh') {
       sortedProducts = [...products].sort((a, b) => a.price - b.price);
-    } else if (option === "HighToLow") {
+    } else if (option === 'HighToLow') {
       sortedProducts = [...products].sort((a, b) => b.price - a.price);
-    } else if (option === "OldToNew") {
+    } else if (option === 'OldToNew') {
       sortedProducts = [...products].sort(
         (a, b) => new Date(a.date) - new Date(b.date)
       );
-    } else if (option === "NewToOld") {
+    } else if (option === 'NewToOld') {
       sortedProducts = [...products].sort(
         (a, b) => new Date(b.date) - new Date(a.date)
       );
     }
-
-    setProducts(sortedProducts);
   };
+
+  // sortedProducts is reset every re-render so update it to filtered options
+  filterProducts(sortBy);
 
   // Rendering logic
   if (loading) {
@@ -72,34 +86,23 @@ const ProductList = () => {
         <h1>Products</h1>
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
+            display: 'flex',
+            alignItems: 'center'
           }}
         >
           {/* Sort by dropdown */}
-          <label htmlFor="sortOptions">Sort By:</label>
-          <select
-            id="sortOptions"
-            onChange={(e) => handleSortChange(e.target.value)}
-            value={sortBy}
-          >
-            <option value="Featured">Featured</option>
-            <option value="AZ">Alphabetically, A-Z</option>
-            <option value="ZA">Alphabetically, Z-A</option>
-            <option value="LowToHigh">Price, Low to High</option>
-            <option value="HighToLow">Price, High to Low</option>
-            <option value="OldToNew">Date, Old to New</option>
-            <option value="NewToOld">Date, New to Old</option>
-          </select>
+          <ProductsFilter sortBy={sortBy} handleSortChange={handleSortChange} />
         </div>
+
         {/* Product count */}
-        <div>{products.length} products</div>
+        <div>{sortedProducts.length} products</div>
+
         {/* Product cards */}
         <Row>
-          {products.map(
+          {sortedProducts.map(
             (product, idx) =>
               product && (
-                <Col md="2" className="m-1" key={idx}>
+                <Col md='2' className='m-1' key={idx}>
                   <ProductCard product={product} />
                 </Col>
               )

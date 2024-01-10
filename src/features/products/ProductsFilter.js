@@ -1,19 +1,22 @@
-import { useState } from "react";
-import { PRODUCTS } from "../../app/shared/PRODUCTS"; // Importing your data array
+import { useState } from 'react';
+import { PRODUCTS } from '../../app/shared/PRODUCTS'; // Importing your data array
 
-const ProductsFilter = () => {
-  const [filter, setFilter] = useState("all"); // Setting the initial state of the filter to "all"
-
-  const handleFilterChange = (e) => {
-    setFilter(e.target.value);
-  };
+const ProductsFilter = ({ sortBy, handleSortChange }) => {
+  // const handleFilterChange = (e) => {
+  //   setFilter(e.target.value);
+  // };
 
   return (
     <div>
-      <select onChange={handleFilterChange}>
-        <option value="all">All</option>
-        <option value="featured">Featured</option>
-        <option value="rating">Rating</option>
+      <label htmlFor='sortOptions'>Sort By:</label>
+      <select id='sortOptions' onChange={handleSortChange} value={sortBy}>
+        <option value='Featured'>Featured</option>
+        <option value='AZ'>Alphabetically, A-Z</option>
+        <option value='ZA'>Alphabetically, Z-A</option>
+        <option value='LowToHigh'>Price, Low to High</option>
+        <option value='HighToLow'>Price, High to Low</option>
+        <option value='OldToNew'>Date, Old to New</option>
+        <option value='NewToOld'>Date, New to Old</option>
       </select>
     </div>
   );
