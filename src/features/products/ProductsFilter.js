@@ -1,11 +1,4 @@
-import { useState } from 'react';
-import { PRODUCTS } from '../../app/shared/PRODUCTS'; // Importing your data array
-
 const ProductsFilter = ({ sortBy, handleSortChange }) => {
-  // const handleFilterChange = (e) => {
-  //   setFilter(e.target.value);
-  // };
-
   return (
     <div>
       <label htmlFor='sortOptions'>Sort By:</label>
