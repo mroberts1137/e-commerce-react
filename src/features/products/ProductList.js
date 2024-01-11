@@ -69,7 +69,7 @@ const ProductList = () => {
   };
 
   // sortedProducts is reset every re-render so update it to filtered options
-  filterProducts(sortBy);
+  if (products) filterProducts(sortBy);
 
   // Rendering logic
   if (loading) {
