@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Col, Row } from 'reactstrap';
 import ProductCard from './ProductCard';
 import ProductsFilter from './ProductsFilter';
+import { useSelector } from 'react-redux';
 import { getAllProducts } from '../../utils/backend';
 
 /*
@@ -10,6 +11,10 @@ Data from fakestoreapi is an object with properties:
   id, title, price, category, description, image, rating: {rate, count}
 }
 */
+
+// TODO:
+// set up useSelector for products data.
+// currently, products are fetched from api asynchronously
 
 const ProductList = () => {
   const [products, setProducts] = useState(null);
