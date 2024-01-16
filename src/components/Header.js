@@ -9,7 +9,6 @@ import {
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import './Header.css';
-import Search from './Search';
 import LoginModal from './LoginModal';
 
 const Header = () => {
@@ -22,8 +21,6 @@ const Header = () => {
         <img src='' alt='logo' className='float-start' />
         <h1 className='mt-1 me-5'>E-Commerce</h1>
       </NavbarBrand>
-
-      <Search />
 
       <NavbarToggler onClick={toggle} />
 

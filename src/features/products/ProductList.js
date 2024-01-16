@@ -28,7 +28,16 @@ const ProductList = () => {
     // this should be moved to state management/Redux
     getAllProducts()
       .then((products) => {
-        setProducts(products);
+        // append additional properties to product data
+        // testing date sorting by adding + idx to date
+        // testing featured by hard coding element index=0 to be featured
+        const appendedProducts = products.map((product, idx) => ({
+          ...product,
+          date: new Date(Date.now() + idx).toISOString(),
+          featured: idx === 0 ? true : false
+        }));
+
+        setProducts(appendedProducts);
         setLoading(false);
         console.log('fetched data');
       })
@@ -74,6 +83,7 @@ const ProductList = () => {
   };
 
   // sortedProducts is reset every re-render so update it to filtered options
+  console.log(products);
   if (products) filterProducts(sortBy);
 
   // Rendering logic
