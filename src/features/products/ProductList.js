@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Col, Row } from 'reactstrap';
 import ProductCard from './ProductCard';
 import ProductsFilter from './ProductsFilter';
 import { useSelector } from 'react-redux';
-import { getAllProducts } from '../../utils/backend';
+import { selectAll } from './productsSlice';
 
 /*
 Data from fakestoreapi is an object with properties:
@@ -17,82 +17,54 @@ Data from fakestoreapi is an object with properties:
 // currently, products are fetched from api asynchronously
 
 const ProductList = () => {
-  const [products, setProducts] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const products = useSelector(selectAll);
+  const [sortedProducts, setSortedProducts] = useState(products || []);
   const [sortBy, setSortBy] = useState('Featured'); // Initial sort option
-  let sortedProducts = products || [];
+  const isLoading = useSelector((state) => state.products.isLoading);
+  const errMsg = useSelector((state) => state.products.errMsg);
 
   useEffect(() => {
-    // fetch database of products on component mounting
-    // this should be moved to state management/Redux
-    getAllProducts()
-      .then((products) => {
-        // append additional properties to product data
-        // testing date sorting by adding + idx to date
-        // testing featured by hard coding element index=0 to be featured
-        const appendedProducts = products.map((product, idx) => ({
-          ...product,
-          date: new Date(Date.now() + idx).toISOString(),
-          featured: idx === 0 ? true : false
-        }));
-
-        setProducts(appendedProducts);
-        setLoading(false);
-        console.log('fetched data');
-      })
-      .catch((e) => {
-        setError(e);
-        setLoading(false);
-        console.log('error fetching data');
-      });
-  }, []);
+    setSortedProducts(products);
+  }, [products]);
 
   const handleSortChange = (e) => {
     // Function to handle sort option change
     setSortBy(e.target.value);
+    setSortedProducts(filterProducts(e.target.value));
   };
 
   const filterProducts = (option) => {
     // Additional logic for sorting products based on the selected option
     // Modify this logic according to your sorting requirements and data structure
-
-    if (option === 'Featured') {
-      sortedProducts = [...products]; // Default order
-    } else if (option === 'AZ') {
-      sortedProducts = [...products].sort((a, b) =>
-        a.title.localeCompare(b.title)
-      );
-    } else if (option === 'ZA') {
-      sortedProducts = [...products].sort((a, b) =>
-        b.title.localeCompare(a.title)
-      );
-    } else if (option === 'LowToHigh') {
-      sortedProducts = [...products].sort((a, b) => a.price - b.price);
-    } else if (option === 'HighToLow') {
-      sortedProducts = [...products].sort((a, b) => b.price - a.price);
-    } else if (option === 'OldToNew') {
-      sortedProducts = [...products].sort(
-        (a, b) => new Date(a.date) - new Date(b.date)
-      );
-    } else if (option === 'NewToOld') {
-      sortedProducts = [...products].sort(
-        (a, b) => new Date(b.date) - new Date(a.date)
-      );
+    switch (option) {
+      case 'Featured':
+        return products;
+      case 'AZ':
+        return [...products].sort((a, b) => a.title.localeCompare(b.title));
+      case 'ZA':
+        return [...products].sort((a, b) => b.title.localeCompare(a.title));
+      case 'LowToHigh':
+        return [...products].sort((a, b) => a.price - b.price);
+      case 'HighToLow':
+        return [...products].sort((a, b) => b.price - a.price);
+      case 'OldToNew':
+        return [...products].sort(
+          (a, b) => new Date(a.date) - new Date(b.date)
+        );
+      case 'NewToOld':
+        return [...products].sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
     }
   };
 
-  // sortedProducts is reset every re-render so update it to filtered options
-  console.log(products);
-  if (products) filterProducts(sortBy);
-
   // Rendering logic
-  if (loading) {
-    return <div>Looking for products...</div>;
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (errMsg) {
+    return <div>Error: {errMsg}</div>;
   }
 
   if (Array.isArray(products)) {
