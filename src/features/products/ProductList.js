@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Col, Row } from 'reactstrap';
+import Grid from '@material-ui/core/Grid';
 import ProductCard from './ProductCard';
 import ProductsFilter from './ProductsFilter';
 import { useSelector } from 'react-redux';
@@ -11,10 +12,6 @@ Data from fakestoreapi is an object with properties:
   id, title, price, category, description, image, rating: {rate, count}
 }
 */
-
-// TODO:
-// set up useSelector for products data.
-// currently, products are fetched from api asynchronously
 
 const ProductList = () => {
   const products = useSelector(selectAll);
@@ -67,37 +64,35 @@ const ProductList = () => {
     return <div>Error: {errMsg}</div>;
   }
 
-  if (Array.isArray(products)) {
-    return (
-      <div>
-        <h1>Products</h1>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          {/* Sort by dropdown */}
-          <ProductsFilter sortBy={sortBy} handleSortChange={handleSortChange} />
-        </div>
-
-        {/* Product count */}
-        <div>{sortedProducts.length} products</div>
-
-        {/* Product cards */}
-        <Row>
-          {sortedProducts.map(
-            (product, idx) =>
-              product && (
-                <Col md='2' className='m-1' key={idx}>
-                  <ProductCard product={product} />
-                </Col>
-              )
-          )}
-        </Row>
+  return (
+    <div>
+      <h1>Products</h1>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
+        {/* Sort by dropdown */}
+        <ProductsFilter sortBy={sortBy} handleSortChange={handleSortChange} />
       </div>
-    );
-  }
+
+      {/* Product count */}
+      <div>{sortedProducts.length} products</div>
+
+      {/* Product cards */}
+      <Grid container spacing={2}>
+        {sortedProducts.map(
+          (product, idx) =>
+            product && (
+              <Grid item xs={8} className='m-1' key={idx}>
+                <ProductCard product={product} />
+              </Grid>
+            )
+        )}
+      </Grid>
+    </div>
+  );
 };
 
 export default ProductList;

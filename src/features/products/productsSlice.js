@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { baseUrl } from '../../app/shared/baseUrl';
 import { appendProductsData } from '../../utils/appendProductsData';
-//import { PRODUCTS } from '../../app/shared/PRODUCTS';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -55,7 +54,7 @@ export const selectById = (id) => (state) => {
 
 export const selectFeatured = (state) => {
   return {
-    featuredItem: state.products.productsArray.find(
+    featuredItem: state.products.productsArray.filter(
       (product) => product.featured
     ),
     isLoading: state.products.isLoading,

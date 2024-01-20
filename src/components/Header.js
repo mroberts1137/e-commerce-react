@@ -8,18 +8,19 @@ import {
   NavItem
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import './Header.css';
 import LoginModal from './LoginModal';
+import './Header.css';
+import logo from '../app/assets/logo.png';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggle = () => setMenuOpen(!menuOpen);
 
   return (
-    <Navbar dark color='primary' sticky='top' expand='md'>
-      <NavbarBrand href='/' className='ms-5'>
-        <img src='' alt='logo' className='float-start' />
-        <h1 className='mt-1 me-5'>E-Commerce</h1>
+    <Navbar dark sticky='top' expand='md' className='navbar'>
+      <NavbarBrand href='/' className='ms-1'>
+        <img src={logo} alt='logo' className='float-start nav-logo' />
+        <h1 className='mt-1 nav-title'>One Stop Shop</h1>
       </NavbarBrand>
 
       <NavbarToggler onClick={toggle} />
