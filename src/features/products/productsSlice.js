@@ -52,12 +52,12 @@ export const selectById = (id) => (state) => {
   );
 };
 
+export const selectByCategory = (category) => (state) => {
+  return state.products.productsArray.filter(
+    (product) => product.category === category
+  );
+};
+
 export const selectFeatured = (state) => {
-  return {
-    featuredItem: state.products.productsArray.filter(
-      (product) => product.featured
-    ),
-    isLoading: state.products.isLoading,
-    errMsg: state.products.errMsg
-  };
+  return state.products.productsArray.filter((product) => product.featured);
 };

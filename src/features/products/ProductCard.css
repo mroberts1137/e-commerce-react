@@ -1,0 +1,44 @@
+.product-card {
+  height: 18rem;
+  max-width: 12rem;
+  padding-top: 1rem;
+  align-items: center;
+  color: black;
+  box-shadow: 2px 2px 10px rgb(123, 121, 121);
+}
+
+.product-card:hover {
+  animation: grow-card 0.2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes grow-card {
+  from {
+    transform: scale(100%);
+  }
+  to {
+    transform: scale(105%);
+  }
+}
+
+.product-img {
+  height: 10rem;
+  width: 100%;
+  object-fit: contain;
+}
+
+.product-title {
+  font-size: 1.1rem;
+  width: 100%;
+
+  /**Major Properties**/
+  overflow: hidden;
+  line-height: 1rem;
+  max-height: 3rem;
+  -webkit-box-orient: vertical;
+  display: block;
+  display: -webkit-box;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
+}

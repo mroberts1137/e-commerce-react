@@ -1,5 +1,6 @@
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import './ProductCard.css';
 
 /*
 Data from fakestoreapi is an object with properties:
@@ -9,16 +10,15 @@ Data from fakestoreapi is an object with properties:
 */
 
 const ProductCard = ({ product }) => {
-  const { id, image, title, description, rating, category } = product;
+  const { id, image, title, price, rating, category, featured } = product;
 
   return (
-    <Link to={`/products/${id}`}>
-      <Card>
-        <CardImg src={image} alt={title} />
+    <Link to={`/products/${id}`} style={{ textDecoration: 'none' }}>
+      <Card className='product-card'>
+        <CardImg src={image} alt={title} className='product-img' />
         <CardBody>
-          <CardTitle>{title}</CardTitle>
-          <CardText>{category}</CardText>
-          <CardText>{rating.rate}</CardText>
+          <CardTitle className='product-title'>{title}</CardTitle>
+          <CardText>${price}</CardText>
         </CardBody>
       </Card>
     </Link>

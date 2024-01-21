@@ -1,0 +1,11 @@
+.products-header {
+  margin-bottom: 20px;
+  margin-left: 5px;
+}
+
+.product-grid {
+  margin: auto;
+  width: 90%;
+  justify-content: center;
+  align-items: top;
+}

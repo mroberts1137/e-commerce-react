@@ -7,23 +7,12 @@ import {
 import { useSelector } from 'react-redux';
 import { selectFeatured } from './productsSlice';
 import { useState } from 'react';
+import './ProductsCarousel.css';
 
-const ProductsCarousel = ({ products }) => {
+const ProductsCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
-
-  const items = [
-    {
-      caption: 'Sample Caption One',
-      src: 'https://media.geeksforgeeks.org/wp-content/uploads/20210425122739/2-300x115.png',
-      altText: 'Slide One'
-    },
-    {
-      caption: 'Sample Caption Two',
-      src: 'https://media.geeksforgeeks.org/wp-content/uploads/20210425122716/1-300x115.png',
-      altText: 'Slide Two'
-    }
-  ];
+  const items = useSelector(selectFeatured);
 
   const previousButton = () => {
     if (animating) return;
@@ -43,21 +32,15 @@ const ProductsCarousel = ({ products }) => {
         key={idx}
         onExited={() => setAnimating(false)}
         onExiting={() => setAnimating(true)}
+        className='carousel-item'
       >
-        <img src={item.src} alt={item.altText} />
+        <img src={item.image} alt={item.title} />
       </CarouselItem>
     );
   });
 
   return (
-    <div
-      style={{
-        display: 'block',
-        width: 320,
-        padding: 30
-      }}
-    >
-      <h8>Featured Products</h8>
+    <div className='carousel'>
       <Carousel
         previous={previousButton}
         next={nextButton}

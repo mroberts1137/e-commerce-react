@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Col, Row } from 'reactstrap';
-import Grid from '@material-ui/core/Grid';
+//import { Col, Row } from 'reactstrap';
+import Grid from '@mui/material/Grid';
 import ProductCard from './ProductCard';
 import ProductsFilter from './ProductsFilter';
 import { useSelector } from 'react-redux';
 import { selectAll } from './productsSlice';
+import './ProductsList.css';
 
 /*
 Data from fakestoreapi is an object with properties:
@@ -16,7 +17,7 @@ Data from fakestoreapi is an object with properties:
 const ProductList = () => {
   const products = useSelector(selectAll);
   const [sortedProducts, setSortedProducts] = useState(products || []);
-  const [sortBy, setSortBy] = useState('Featured'); // Initial sort option
+  const [sortBy, setSortBy] = useState('All'); // Initial sort option
   const isLoading = useSelector((state) => state.products.isLoading);
   const errMsg = useSelector((state) => state.products.errMsg);
 
@@ -34,8 +35,22 @@ const ProductList = () => {
     // Additional logic for sorting products based on the selected option
     // Modify this logic according to your sorting requirements and data structure
     switch (option) {
-      case 'Featured':
+      case 'All':
         return products;
+      case 'Featured':
+        return products.filter((product) => product.featured);
+      case 'Mens':
+        return products.filter(
+          (product) => product.category === "men's clothing"
+        );
+      case 'Womens':
+        return products.filter(
+          (product) => product.category === "women's clothing"
+        );
+      case 'Jewelery':
+        return products.filter((product) => product.category === 'jewelery');
+      case 'Electronics':
+        return products.filter((product) => product.category === 'electronics');
       case 'AZ':
         return [...products].sort((a, b) => a.title.localeCompare(b.title));
       case 'ZA':
@@ -52,6 +67,8 @@ const ProductList = () => {
         return [...products].sort(
           (a, b) => new Date(b.date) - new Date(a.date)
         );
+      default:
+        return products;
     }
   };
 
@@ -66,26 +83,28 @@ const ProductList = () => {
 
   return (
     <div>
-      <h1>Products</h1>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center'
-        }}
-      >
-        {/* Sort by dropdown */}
-        <ProductsFilter sortBy={sortBy} handleSortChange={handleSortChange} />
+      <div className='products-header'>
+        <h1>Products</h1>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          {/* Sort by dropdown */}
+          <ProductsFilter sortBy={sortBy} handleSortChange={handleSortChange} />
+        </div>
+
+        {/* Product count */}
+        <div>{sortedProducts.length} products</div>
       </div>
 
-      {/* Product count */}
-      <div>{sortedProducts.length} products</div>
-
       {/* Product cards */}
-      <Grid container spacing={2}>
+      <Grid container spacing={2} className='product-grid'>
         {sortedProducts.map(
           (product, idx) =>
             product && (
-              <Grid item xs={8} className='m-1' key={idx}>
+              <Grid item xs={3} md={2} className='product-grid-item' key={idx}>
                 <ProductCard product={product} />
               </Grid>
             )

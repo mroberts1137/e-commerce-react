@@ -1,0 +1,25 @@
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-details {
+  align-items: center;
+}
+
+.product-details img {
+  padding: 5rem;
+  width: 50%;
+  height: auto;
+  object-fit: contain;
+}
+
+.product-details div {
+  padding: 5rem;
+  margin-right: 1rem;
+}
