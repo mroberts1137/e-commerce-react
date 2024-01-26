@@ -1,0 +1,22 @@
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-card {
+  border: solid 1px gray;
+  border-radius: 5px;
+  max-width: 60%;
+  margin-left: 2rem;
+}
+
+.product-img {
+  height: 10rem;
+  width: 100%;
+  object-fit: contain;
+}

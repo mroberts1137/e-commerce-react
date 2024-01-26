@@ -1,6 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import { selectById, selectByCategory } from './productsSlice';
+import { addItem, getCartSize } from '../cart/cartSlice';
 import { Button } from 'reactstrap';
 import SimilarProducts from './SimilarProducts';
 import './ProductDetails.css';
@@ -10,7 +12,25 @@ const ProductDetails = () => {
   const product = useSelector(selectById(productId));
   const { image, title, price, description, featured, category, rating } =
     product;
-  const similarProducts = useSelector(selectByCategory(category));
+
+  // add-to-cart code
+  const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState(1);
+  const cartSize = useSelector(getCartSize);
+
+  const addItemToCart = () => {
+    dispatch(
+      addItem({
+        id: cartSize + 1,
+        quantity: parseInt(quantity),
+        product
+      })
+    );
+  };
+
+  const handleChange = (e) => {
+    setQuantity(e.target.value);
+  };
 
   return (
     <div className='flex-column'>
@@ -24,7 +44,18 @@ const ProductDetails = () => {
           <p>
             <strong>Price: ${price}</strong>
           </p>
-          <Button>Add To Cart</Button>
+
+          <div className='flex-row' style={{ gap: '10px' }}>
+            <p>Qty: </p>
+            <select id='qty-selector' onChange={handleChange} value={quantity}>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+            </select>
+            <Button onClick={addItemToCart}>Add To Cart</Button>
+          </div>
         </div>
       </div>
 

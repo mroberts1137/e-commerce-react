@@ -1,5 +1,12 @@
+import CartDisplay from '../features/cart/CartDisplay';
+
 const Cart = () => {
-  return <div>Cart</div>;
+  return (
+    <div>
+      Cart
+      <CartDisplay />
+    </div>
+  );
 };
 
 export default Cart;

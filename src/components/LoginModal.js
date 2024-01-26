@@ -24,7 +24,11 @@ const LoginModal = ({ campsiteId }) => {
 
   return (
     <>
-      <Button outline onClick={() => setModalOpen(true)}>
+      <Button
+        outline
+        style={{ color: 'white', borderColor: 'white' }}
+        onClick={() => setModalOpen(true)}
+      >
         Login
       </Button>
 

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getCartSize } from '../features/cart/cartSlice';
 import {
   Navbar,
   NavbarBrand,
@@ -15,6 +17,7 @@ import logo from '../app/assets/logo.png';
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggle = () => setMenuOpen(!menuOpen);
+  const cartSize = useSelector(getCartSize);
 
   return (
     <Navbar dark sticky='top' expand='md' className='navbar'>
@@ -42,18 +45,15 @@ const Header = () => {
               Contact
             </NavLink>
           </NavItem>
-          {/* <NavItem>
-            <NavLink className="nav-link" to="/login">
-              <i className="fa fa-right-to-bracket fa-lg" /> Login
-            </NavLink>
-          </NavItem> */}
-
-          <LoginModal />
 
           <NavItem>
-            <NavLink className='nav-link' to='/cart'>
-              <i className='fa fa-cart-shopping fa-lg' /> Cart
-              <div className='nav-cart-count'>0</div>
+            <LoginModal />
+          </NavItem>
+
+          <NavItem>
+            <NavLink className='nav-link nav-cart' to='/cart'>
+              <i className='fa fa-lg' /> Cart
+              <div className='nav-cart-count'>{cartSize}</div>
             </NavLink>
           </NavItem>
         </Nav>
