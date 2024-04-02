@@ -13,12 +13,28 @@ import { validateLogin } from '../utils/validateLogin';
 const LoginModal = ({ campsiteId }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     const loginCredentials = {
       username: values.username,
       password: values.password
     };
-    console.log(loginCredentials);
+
+    try {
+      const response = await fetch('http://localhost:3000/users/signup', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginCredentials)
+      });
+      console.log(JSON.stringify(loginCredentials));
+      const result = await response.json();
+      console.log(result);
+    } catch (e) {
+      console.log(e);
+    }
+
     setModalOpen(false);
   };
 
